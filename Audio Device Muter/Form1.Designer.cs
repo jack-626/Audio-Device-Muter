@@ -1,4 +1,4 @@
-﻿namespace Line_In_Disabler
+﻿namespace Audio_Device_Muter
 {
     partial class Form1
     {

@@ -1,6 +1,6 @@
 using NAudio;
 
-namespace Line_In_Disabler
+namespace Audio_Device_Muter
 {
     public partial class Form1 : Form
     {
@@ -15,7 +15,7 @@ namespace Line_In_Disabler
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if(comboBox1.SelectedItem == null)
+            if (comboBox1.SelectedItem == null)
             {
                 MessageBox.Show("Please select a device!", "Error");
                 return;
@@ -26,16 +26,17 @@ namespace Line_In_Disabler
             foreach (NAudio.CoreAudioApi.MMDevice dev in devices)
             {
                 //System.Diagnostics.Debug.Print(dev.FriendlyName);
-                if(currentItem.ToString() == dev.FriendlyName)
+                if (currentItem.ToString() == dev.FriendlyName)
                 {
                     //dev.AudioEndpointVolume.Mute = true;
                     var muted = dev.AudioEndpointVolume.Mute;
                     muted = !muted;
                     dev.AudioEndpointVolume.Mute = muted;
-                    if(muted == true)
+                    if (muted == true)
                     {
                         MessageBox.Show("Muted Device!");
-                    } else if (muted == false)
+                    }
+                    else if (muted == false)
                     {
                         MessageBox.Show("Unmuted Device!");
                     }
