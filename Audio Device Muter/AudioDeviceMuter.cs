@@ -53,6 +53,10 @@ namespace Audio_Device_Muter
             TextWriter tw = new StreamWriter("audiodevicesave.txt");
             tw.Write(currentItem.ToString());
             tw.Close();
+            if (File.Exists("audiodevicesave.txt"))
+            {
+                MessageBox.Show("Saved Successfully!", "Success!");
+            }
         }
         private void AudioDeviceMuter_Load(object sender, EventArgs e)
         {
