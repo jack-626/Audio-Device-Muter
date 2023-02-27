@@ -11,15 +11,15 @@ namespace Audio_Device_Muter
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void toggleButton_Click(object sender, EventArgs e)
         {
-            if (comboBox1.SelectedItem == null)
+            if (deviceSelectBox1.SelectedItem == null)
             {
                 MessageBox.Show("Please select a device!", "Error");
                 return;
             }
 
-            var currentItem = comboBox1.SelectedItem;
+            var currentItem = deviceSelectBox1.SelectedItem;
 
             foreach (NAudio.CoreAudioApi.MMDevice dev in devices)
             {
@@ -40,15 +40,15 @@ namespace Audio_Device_Muter
                 }
             }
         }
-        private void button2_Click(object sender, EventArgs e)
+        private void saveButton_Click(object sender, EventArgs e)
         {
-            if (comboBox2.SelectedItem == null)
+            if (deviceSelectBox2.SelectedItem == null)
             {
                 MessageBox.Show("Please select a device!", "Error");
                 return;
             }
 
-            var currentItem = comboBox2.SelectedItem;
+            var currentItem = deviceSelectBox2.SelectedItem;
 
             TextWriter tw = new StreamWriter("audiodevicesave.txt");
             tw.Write(currentItem.ToString());
@@ -62,8 +62,8 @@ namespace Audio_Device_Muter
         {
             NAudio.CoreAudioApi.MMDeviceEnumerator enumerator = new NAudio.CoreAudioApi.MMDeviceEnumerator();
             devices = enumerator.EnumerateAudioEndPoints(NAudio.CoreAudioApi.DataFlow.All, NAudio.CoreAudioApi.DeviceState.Active);
-            comboBox1.Items.AddRange(devices.ToArray());
-            comboBox2.Items.AddRange(devices.ToArray());
+            deviceSelectBox1.Items.AddRange(devices.ToArray());
+            deviceSelectBox2.Items.AddRange(devices.ToArray());
 
             //Check if device should be toggled and which one, then toggle it on startup.
             if (File.Exists("audiodevicesave.txt"))
