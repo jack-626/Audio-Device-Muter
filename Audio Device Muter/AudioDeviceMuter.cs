@@ -54,10 +54,12 @@ namespace Audio_Device_Muter
             //Write current item to file
             var currentItem = deviceSelectBox1.SelectedItem;
 
-            TextWriter tw = new StreamWriter("audiodevicesave.txt");
-            tw.Write(currentItem.ToString());
-            tw.Close();
-            if (!File.Exists("audiodevicesave.txt"))
+            try
+            {
+                TextWriter tw = new StreamWriter("audiodevicesave.txt");
+                tw.Write(currentItem.ToString());
+                tw.Close();
+            } catch
             {
                 MessageBox.Show("Saving failed.", "Error");
             }
@@ -77,15 +79,21 @@ namespace Audio_Device_Muter
 
             if (File.Exists("audiodevicesave.txt"))
             {
-                TextReader tr = new StreamReader("audiodevicesave.txt");
-                string deviceToToggle = tr.ReadToEnd();
-                Debug.WriteLine(deviceToToggle);
-                tr.Close();
+                string deviceToToggle = "";
+                try
+                {
+                    TextReader tr = new StreamReader("audiodevicesave.txt");
+                    deviceToToggle = tr.ReadToEnd();
+                    Debug.WriteLine(deviceToToggle);
+                    tr.Close();
+                } catch {
+                    MessageBox.Show("Loading failed.", "Error");
+                }
 
                 MuteDevice(deviceToToggle, false);
 
                 //Check if device should be toggled and which one, then toggle it on startup.
-                DialogResult dialog = MessageBox.Show("Saved device muted. \nWould you like to change the saved device?", "Success!", MessageBoxButtons.YesNo);
+                DialogResult dialog = MessageBox.Show("Toggled mute for device: " + deviceToToggle + "\nWould you like to change the saved device?", "Success!", MessageBoxButtons.YesNo);
 
                 if (dialog == DialogResult.No)
                 {
